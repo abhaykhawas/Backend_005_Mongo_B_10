@@ -1,0 +1,7 @@
+mongoose : ODM (Object data modeling) library
+
+
+Data we deal in mongoDB is BSON
+Nodejs understands json or arrays (JS)
+
+Bridge is mongoose
