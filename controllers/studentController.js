@@ -92,3 +92,7 @@ const deleteStudent = async (req, res) => {
 module.exports = {
     createStudent, fetchAllStudent, fetchOneStudent, updateStudent, deleteStudent
 }
+
+
+// findOne, populate - Research
+// Connect multiple connections - read
