@@ -2,6 +2,8 @@ const express = require("express")
 require('dotenv').config()
 const connectDB = require('./config/db')
 const studentRoute = require('./routes/studentRoute')
+const teacherRoute = require('./routes/teacherRoute')
+const courseRoute = require('./routes/courseRoute')
 
 const app = express()
 
@@ -14,6 +16,8 @@ app.get("/", (req, res) => {
 })
 
 app.use('/api/student', studentRoute)
+app.use('/api/teacher', teacherRoute)
+app.use('/api/course', courseRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port : ${process.env.PORT}`)

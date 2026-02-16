@@ -13,8 +13,9 @@ const studentSchema = new mongoose.Schema({
     },
 
     course: {
-        type: String,
-        default: "Full stack"
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+        required: true
     },
 
     isActive: {

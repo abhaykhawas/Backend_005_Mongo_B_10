@@ -1,9 +1,14 @@
 const Student = require('../models/Student')
-
+const Course = require('../models/Course')
 
 const createStudent = async (req, res) => {
     try{
         const { name, age, course } = req.body
+
+        const courseExists = await Course.findById(course)
+
+        if(!courseExists) return res.status(404).json({message: "Course not found!!!"})
+
         const student = await Student.create({
             name,
             age,
@@ -20,7 +25,7 @@ const createStudent = async (req, res) => {
 
 const fetchAllStudent = async (req, res) => {
     try{
-        const students = await Student.find()
+        const students = await Student.find().populate('course')
 
         res.status(200).json({
             data: students,
