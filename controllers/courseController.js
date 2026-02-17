@@ -28,7 +28,11 @@ const createCourse = async (req, res) => {
 
 const getAllCourses = async (req, res) => {
     try{
-        const courses = await Course.find().populate('teacher')
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 3
+        const skip = (page - 1) * limit
+
+        const courses = await Course.find().skip(skip).limit(limit).populate('teacher')
         res.status(200).json(courses)
     }
     catch(err){

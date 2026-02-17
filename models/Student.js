@@ -21,6 +21,17 @@ const studentSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
+    },
+
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+
+    password: {
+        type: String,
+        required: true
     }
 })
 
