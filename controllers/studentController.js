@@ -61,7 +61,7 @@ const fetchOneStudent = async (req, res) => {
 const updateStudent = async (req, res) => {
     try{
         const updatedStudent = await Student.findByIdAndUpdate(
-            req.params.id,
+            req.user.id,
             req.body,
             {new : true}
         )
@@ -120,12 +120,12 @@ const register = async (req, res) => {
         })
 
         const token = jwt.sign(
-            { id: student._id },
-            "super-secret",
+            { id: student._id, type: 'student' },
+            process.env.JWT_SECRET,
             { expiresIn: "2m" }
         )
 
-        res.status(201).json({student, token})
+        res.status(201).json({ token})
 
     }
     catch(err) {
@@ -133,9 +133,35 @@ const register = async (req, res) => {
     }
 }
 
+const login = async (req, res) => {
+    try{
+        const { email, password } = req.body
+
+        const studentExists = await Student.findOne({email})
+
+        if(!studentExists) return res.status(404).json({message: "Student does not exists please register first"});
+
+        const isCompare = await bcrypt.compare(password, studentExists.password)
+
+        if (!isCompare) return res.status(400).json({message: "Wrong password, please try again!!"});
+
+        const token = jwt.sign(
+            { id: studentExists._id, type: 'student' },
+            process.env.JWT_SECRET,
+            { expiresIn: "2m" }
+        )
+
+        res.status(200).json({token})
+
+    }
+    catch(err){
+        res.status(400).json({err: err.message})
+    }
+}
+
 
 module.exports = {
-    createStudent, fetchAllStudent, fetchOneStudent, updateStudent, deleteStudent, register
+    createStudent, fetchAllStudent, fetchOneStudent, updateStudent, deleteStudent, register, login
 }
 
 

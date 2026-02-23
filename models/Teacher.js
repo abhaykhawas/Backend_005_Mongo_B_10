@@ -16,6 +16,10 @@ const teacherSchema = new mongoose.Schema({
     experience: {
         type: Number,
         required: true
+    },
+    password: {
+        type: String,
+        required: true
     }
 }, {timestamps: true})
 
